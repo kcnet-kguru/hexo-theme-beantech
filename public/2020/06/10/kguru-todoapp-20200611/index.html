@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [후기] Vuejs와 Spring Boot를 활용한 나만의 TODO App 만들기(1) - kcnet | KGuru
+        
+    </title>
+
+    <link rel="canonical" href="https://kcnet-kguru.github.io/2020/06/10/kguru-todoapp-20200611/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('null')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('/img/signature/BeanTechSign-white.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#KGuru" title="KGuru">KGuru</a>
+                            
+                              <a class="tag" href="/tags/#Vuejs" title="Vuejs">Vuejs</a>
+                            
+                              <a class="tag" href="/tags/#Spring Boot" title="Spring Boot">Spring Boot</a>
+                            
+                        </div>
+                        <h1>[후기] Vuejs와 Spring Boot를 활용한 나만의 TODO App 만들기(1)</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by KCNET on
+                            2020-06-10
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Kcnet KGuru Tech Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="kuru-vuejs와-spring-boot를-활용한-나만의-todo-app-만들기-후기">KURU Vuejs와 Spring Boot를 활용한 나만의 TODO App 만들기 후기</span></h3>
+<p>안녕하세요. KGuru 첫번째 강의를 담당했던 장상익 입니다.</p>
+<p>KGuru 첫 강의형 스터디를 진행하면서 느꼈던 점과 스터디 내용에 대해 공유하려고 합니다.</p>
+<h3><span id="kguru-란">KGuru 란?</span></h3>
+<p>지식 공유를 지향하는 스터디 그룹입니다. 첫 시작을 강의형 스터디로 하였지만, 그룹스터디, 멘토링, 세미나 등등 기술이나 업무에 관련된</p>
+<p>지식과 경험을 공유하고, 사내에 선한 영향력을 전파하려는 그룹입니다.</p>
+<p>저는 <strong>항상 진화하는 개발자</strong>를 모토로 삼고 있습니다. 항상 좋은 코들 작성하려고 노력하고, 진화하는 어플리케이션을 설계하고, 구현하는 것에</p>
+<p>관심이 많습니다. 제가 입사한지 얼마 되지 않아 많은 분들과 친하지는 않지만, 사내에도 저와 같은 사상을 가지셨거나 관심사가 비슷한 개발자 분들이</p>
+<p>분명히 존재 할 거라고 생각했습니다. KGuru의 시작점은 그 개발자 분들과의 소통을 위해서 기획되고, 만들어졌습니다.</p>
+<p>그리고 관심사에 대한 수요를 조사하여 그 기준에 맞추기 보다, 그룹이 공유할 수 있는 기술 지식에 대해 공지하고, 그 기술에 관심있는 개발자 분들을</p>
+<p>모집하는 것으로 초점을 맞추어 강의형으로 스터디를 기획하였습니다.</p>
+<p>회사에서는 주로 웹개발을 java로 하고 관공서 프로젝트를 많이 하기 때문에 Spring Framework과 JavaScript에 대해서는 낯설지 않을 거라 생각했고</p>
+<p>그 첫 시작을 'Vuejs’와 'Spring Boot’로 선정하셨습니다.</p>
+<h3><span id="ecmascript-6">Ecmascript 6</span></h3>
+<p>javascript 언어는 계속해서 진화와 변화를 꾸준히 진행하고 있습니다. 브라우저에서만 작동했던 javascript 가 그 한계를 넘어서 Stand Alone Runtime 을 가질 수 있었던</p>
+<p>가장 큰 사건은 Nodejs 의 릴리즈 때문입니다.</p>
+<p>Nodejs 의 출현이후 javascript 가 급속도록 발전할 수 있는 계기가 되었고, 그 발전에 따라 타 프로그래밍언어에 비해 부족하거나 버그를 유발했던 기본 코딩스타일들에 변화를 하기 시작했습니다.</p>
+<p>제 생각으로 javascript 는 ECMAScript6 이전과 이후로 나뉠 수 있다고 생각합니다.</p>
+<p>고전적인 웹 어플리케이션에서 사용하던 Ecmascript6 이전에 비해 많은것이 추가되고 바뀌기 시작했습니다.</p>
+<p>이번 교육에서 공유한 내용은</p>
+<ul>
+<li>Const, let</li>
+<li>Arrow Function</li>
+<li>전개 연산자</li>
+<li>Promise</li>
+</ul>
+<p>에 대해 스터디를 진행하였습니다. 그 외에도 많은 내용들이 존재하지만, 이번 어플리케이션 구현에 필요한 부분만 하게 되었습니다.</p>
+<h4><span id="const-let">const, let</span></h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// javascript 는 변수에 대한 정의를 var 키워드로 선언해서 사용합니다.</span></span><br><span class="line"><span class="keyword">var</span> val1 = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//하지만 var 키워드를 사용하지 않아도 호이스팅 때문에 에러가 나지 않습니다.</span></span><br><span class="line">val2 = <span class="number">3</span></span><br><span class="line"><span class="keyword">var</span> val2;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ECMAScript 6에서는 호이스팅에 대한 버그를 최소화하기 위해 const 와 let 을 사용합니다.</span></span><br><span class="line"><span class="comment">// 이전 버전에는 호이스팅 등의 버그를 피하기 위해 'use strict' 를 명시하여 사용하기도 했습니다.</span></span><br><span class="line"><span class="keyword">const</span> val3 = <span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> val4 = <span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// const 는 변하지 않는 상수를 정의할 때, let 은 const 를 사용할 때를 제외하고 사용합니다.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> val5 = <span class="number">5</span></span><br><span class="line">val5 = <span class="number">6</span> <span class="comment">// 에러</span></span><br></pre></td></tr></table></figure>
+<h4><span id="화살표-함수-arrow-function">화살표 함수 (arrow function)</span></h4>
+<p>화살표 함수는 function 표현에 비해 구문이 짧고 자신의 this, arguments, super 또는 new.target 을 바인딩 하지 않습니다. 화살표 함수는 항상 익명 입니다.</p>
+<p>이 함수 표현은 메소드 함수가 아닌 곳에 가장 적합합니다. (출처 - <a href="https://developer.mozilla.org/" target="_blank" rel="noopener">https://developer.mozilla.org/</a>  화살표 함수)</p>
+<p>화살표 함수는 다음과 같이 표현하여 사용할 수 있습니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">(param) =&gt; &#123; code &#125;</span><br><span class="line">param =&gt; &#123; code &#125;</span><br><span class="line">() =&gt; &#123; code &#125;</span><br><span class="line">(param1, param2,,,,,,,paramN) =&gt; &#123; code &#125;</span><br><span class="line">param =&gt; ( &#123; <span class="attr">key</span>: value &#125;)</span><br><span class="line">(param1, param2, ...rest) =&gt; &#123; code &#125;</span><br><span class="line">(param1, param2 = <span class="number">123</span>,,,,paramN) =&gt; &#123; code &#125;</span><br><span class="line">([one, two] = [<span class="number">1</span>,<span class="number">2</span>] =&gt; one + two</span><br></pre></td></tr></table></figure>
+<h4><span id="spread-operator-전개-구문">spread operator (전개 구문)</span></h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params">x, y, z</span>) </span>&#123;&#125;</span><br><span class="line"><span class="keyword">var</span> args = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">myFunction(...args)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 배열 리터럴에서의 전개</span></span><br><span class="line"><span class="keyword">var</span> parts = [<span class="string">'shoulders'</span>, <span class="string">'knees'</span>]; </span><br><span class="line"><span class="keyword">var</span> lyrics = [<span class="string">'head'</span>, ...parts, <span class="string">'and'</span>, <span class="string">'toes'</span>]; </span><br><span class="line"><span class="comment">// ["head", "shoulders", "knees", "and", "toes"]</span></span><br></pre></td></tr></table></figure>
+<h4><span id="promise">Promise</span></h4>
+<p>Promise 객체는 비동기 작업이 맞이할 미래의 완료 또는 실패와 그 결과 값을 나타냅니다.</p>
+<p>javascript 는 비동기로 동작하기 때문때 동기적으로 제어 하기 위해서 Promise 객체를 사용합니다.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">first</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"do first function"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">second</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"do second function"</span>);</span><br><span class="line">    &#125;, <span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">third</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"do third function"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">first();</span><br><span class="line">second();</span><br><span class="line">third();</span><br><span class="line"><span class="comment">// 결과 do first function -&gt; do third function -&gt; do second function 순으로 console 에 print 됩니다.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promiseFirst</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"do promiseFirst function"</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125; )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promiseSecond</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">(resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"do promiseSecond function"</span>);</span><br><span class="line">            resolve();</span><br><span class="line">        &#125;, <span class="number">3000</span>);</span><br><span class="line">    &#125;))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">promiseThird</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"do promiseThird function"</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125; );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">promiseFirst()</span><br><span class="line">    .then(promiseSecond)</span><br><span class="line">    .then(promiseThird);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 결과 do promiseFirst function -&gt; 3초 후 do promiseSecond function -&gt; do promiseThird function 순으로 console 에 print 됩니다.</span></span><br></pre></td></tr></table></figure>
+<p>글이 길어 지는 것 같아 다음글에  Vuejs에 대해서 포스팅 하겠습니다.</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">KURU Vuejs와 Spring Boot를 활용한 나만의 TODO App 만들기 후기</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">KGuru 란?</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Ecmascript 6</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">const, let</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">화살표 함수 (arrow function)</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">spread operator (전개 구문)</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.4.</span> <span class="toc-nav-text">Promise</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#KGuru" title="KGuru">KGuru</a>
+                        
+                          <a class="tag" href="/tags/#Vuejs" title="Vuejs">Vuejs</a>
+                        
+                          <a class="tag" href="/tags/#Spring Boot" title="Spring Boot">Spring Boot</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "https://kcnet-kguru.github.io/2020/06/10/kguru-todoapp-20200611/";
+    var disqus_url = "https://kcnet-kguru.github.io/2020/06/10/kguru-todoapp-20200611/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/kcnet-kguru">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; KCNET 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://kcnet-kguru.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-168993046-1';
+    var _gaDomain = 'https://kcnet-kguru.github.io/';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="https://kcnet-kguru.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
